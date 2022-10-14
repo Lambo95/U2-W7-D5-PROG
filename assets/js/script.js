@@ -15,7 +15,6 @@
 
 window.onload = function () {
   getFetchAll(); //1 Al caricamento della pagina faccio una fetch all'API
-  searchName();
 };
 
 async function getFetchAll() {
@@ -31,12 +30,13 @@ async function getFetchAll() {
 }
 
 //4 funzione di ricerca
-async function searchName(name) {
+async function searchName() {
   // prendo la search bar
   let searchBar = document.querySelector("#search-bar");
-  let searchValue = searchBar.value;
-  searchValue = await fetch(`https://www.breakingbadapi.com/api/characters?name=${name}`);
-  fetchDisplay(searchValue);
+  let name = searchBar.value;
+  let nameValue = await fetch(`https://www.breakingbadapi.com/api/characters?name=${name}`);
+  let result = await nameValue.json();
+  fetchDisplay(result);
 }
 
 //3 La mostro a schermo
@@ -45,7 +45,7 @@ function fetchDisplay(response) {
   let display = document.querySelector(".container > .row");
   //svuoto il contetnuto per la funzione di ricerca che implementerò
   display.innerHTML = "";
-
+  console.log(response);
   for (const res of response) {
     display.innerHTML += `<div class="card card-sm mx-auto my-2" style="width: 18rem;">
              <img src="${res.img}" class="card-img-top">
